@@ -3,21 +3,21 @@ services:
   - docker
 
 before_install:
-  - docker build -t dbandurin/complex -f ./client/Dockerfile.dev ./client
+  - docker build -t bandurin/complex -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run dbandurin/complex npm test -- --coverage
+  - docker run bandurin/complex npm test -- --coverage
 
 after_success:
-  - docker build -t dbandurin/multi-client ./client
-  - docker build -t dbandurin/multi-nginx ./nginx
-  - docker build -t dbandurin/multi-server ./server
-  - docker build -t dbandurin/multi-worker ./worker
+  - docker build -t bandurin/multi-client ./client
+  - docker build -t bandurin/multi-nginx ./nginx
+  - docker build -t bandurin/multi-server ./server
+  - docker build -t bandurin/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push dbandurin/multi-client
-  - docker push dbandurin/multi-nginx
-  - docker push dbandurin/multi-server
-  - docker push dbandurin/multi-worker
+  - docker push bandurin/multi-client
+  - docker push bandurin/multi-nginx
+  - docker push bandurin/multi-server
+  - docker push bandurin/multi-worker
 
