@@ -3,10 +3,10 @@ services:
   - docker
 
 before_install:
-  - docker build -t dbandurin/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t dbandurin/complex -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run dbandurin/react-test npm test -- --coverage
+  - docker run dbandurin/complex npm test -- --coverage
 
 after_success:
   - docker build -t dbandurin/multi-client ./client
