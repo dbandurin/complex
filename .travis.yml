@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t dbandurin/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run dbandurin/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t dbandurin/multi-client ./client
+  - docker build -t dbandurin/multi-nginx ./nginx
+  - docker build -t dbandurin/multi-server ./server
+  - docker build -t dbandurin/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push dbandurin/multi-client
+  - docker push dbandurin/multi-nginx
+  - docker push dbandurin/multi-server
+  - docker push dbandurin/multi-worker
+
